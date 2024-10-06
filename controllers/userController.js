@@ -75,15 +75,22 @@ exports.login = async (req, res) => {
   };
   
 
-// Profile retrieval handler
-exports.getProfile = (req, res) => {
-  // `req.user` is set in the auth middleware
-  const user = userModel.findById(req.user.id);
-
-  if (!user) return res.status(404).send({ message: 'User not found' });
-
-  // Exclude password from the user data
-  const { password, ...userWithoutPassword } = user;
-
-  res.send(userWithoutPassword);
-};
+  exports.getProfile = async (req, res) => {
+    try {
+      const user = userModel.findById(req.user.id); 
+  
+      if (!user) {
+        return res.status(404).send({ message: 'User not found' });
+      }
+  
+      // Exclude password from the user data
+      const { password, ...userWithoutPassword } = user;
+  
+      res.send(userWithoutPassword);
+    } catch (error) {
+      console.error(error);
+      res.status(500).send({ message: 'Error fetching user profile.' });
+    }
+  };
+  
+  

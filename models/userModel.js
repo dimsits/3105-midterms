@@ -60,7 +60,7 @@ const findByUsername = (username) => {
 // Function to find a user by ID
 const findById = (id) => {
   const users = readUsersFromFile();
-  return users.find((user) => user.id === id);
+  return users.find((user) => user.id.toString() === id.toString());
 };
 
 module.exports = {
